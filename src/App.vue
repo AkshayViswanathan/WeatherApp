@@ -1,18 +1,35 @@
 <template>
   <div class="container">
 {{ date }}
-
+<p>Location: {{ datafetch?.name }}</p>
+<p>{{ datafetch?.main?.temp }}</p>
 
   </div>
 
-  <div >
+  <div class="">
      
       <i class="fa-solid fa-magnifying-glass">
           
       </i>
       <input type="text" v-model="searchTerm" />
       <p>{{ datafetch }}</p>
-      <p>{{ datafetch.name }}</p>
+      
+
+      <div class="flex justify-around">
+          <p> {{ datafetch?.weather[0]?.main }}</p>
+          <label > {{ datafetch?.clouds?.all }}% </label>
+      </div>
+      
+      <div class="flex justify-around">
+         <label >Temp_min</label>
+         <p>{{ Celcius }}</p>
+      </div>
+       
+      <div class="flex justify-around">
+           <label for="tempMax">Temp_max</label>
+           <p id="tempMax">{{ datafetch?.main?.temp_max }}</p>
+       </div>
+   
      
       <button @click="handleSubmit">search</button>
   </div>
@@ -36,6 +53,9 @@ const date = new Date().toLocaleDateString('en-us', {
   day: 'numeric'
   
 })
+
+
+const Celcius = (datafetch?.value?.main?.temp_min -32) / 1.8;
 
 
 // const handleSearch= ()=>{
@@ -67,6 +87,10 @@ catch(error){
 
 <style  scoped>
 
+.searchContainer{
+  background-color: rgba(124, 124, 124, 0.3);
+
+}
 
 
 </style>
