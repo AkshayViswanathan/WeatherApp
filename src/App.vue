@@ -1,66 +1,83 @@
 <template>
-  <div>
-      <div class="w-[90vw] h-[70vh] relative mx-auto flex " >
-          <div class="p-0 w-[90vw] h-[60vh]  relative" >
-            <div class="-z-10 w-[90vw] h-[60vh] object-contain">
-                <img :src="{ backgroundImage }" alt=""  class="w-full h-full"/>
+  
+      <div class="max-h-screen" >
+          <div  >
+            <div class="max-h-screen ">
+              <img v-if="datafetch?.weather[0]?.main === 'Clouds'" :src="clouds" alt="" class="bg-cover bg-center 	" />
+          <img v-else-if="datafetch?.weather[0]?.main === 'Rain'" :src="rain" alt="" class="max-h-screen	" />
+          <img v-else-if="datafetch?.weather[0]?.main === 'Clear'" :src="clear" alt="" class="max-h-screen" />
+          <img v-else-if="datafetch?.weather[0]?.main === 'Mist'" :src="mist" alt="" class="max-h-screen" />
+          <img v-else-if="datafetch?.weather[0]?.main === 'Haze'" :src="haze" alt="" class="max-h-screen" />
+          <img v-else-if="datafetch?.weather[0]?.main === 'Snow'" :src="snow" alt="" class="max-h-screen" />
+          <img v-else :src="defaultimage" alt="" class="bg-contain	" />
             </div>
             <div class="absolute top-[100px] left-[100px] z-4">
-              <p class="text-black">{{ rounoff }} °C</p>
-                <p class="text-red-500">Location: {{ datafetch?.name }}</p>
+              <p class="text-black ">{{ rounoffDegreeCelcus }} °C</p>
+                <p class="text-red-500">Location: {{ datafetch?.name }}, {{ datafetch?.sys?.country }}</p>
                 <p>{{ Todysdate }} </p> 
 
             </div>
            </div>
   
    
-  <div class="absolute top-0 right-0 w-[40%] h-[60vh] bg-slate-800">
+  <div class="absolute top-0 right-0 w-[40%] h-[60vh] bg-slate-800 p-8 bg-gray-500	">
      
-     <i class="fa-solid fa-magnifying-glass">
-         
-     </i>
-     <input class="seachbox" type="text" v-model="searchTerm" placeholder="search..." />
-     <p>{{ datafetch }}</p>
+    
+     <input class="seachbox rounded-md items-starts my-8 ml-8 mr-2 p-2"  type="text" v-model="searchTerm" placeholder="search..." />
+     <i class="fa-solid fa-magnifying-glass text-white	hover:bg-gray-600 text-xl" @click="handleSubmit"></i>
 
-     <div class="flex justify-around" >div
-         <p> {{ datafetch?.weather[0]?.main }}</p>
-         <label > {{ datafetch?.clouds?.all }}% </label>
-     </div>
-     
+     <p class="text-white align-center">Weather Details...</p>
+
+
      <div class="flex justify-around">
-        <label >Temp_min</label>
-        <pdiv>{{ datafetch?.main?.temp_min }}</pdiv>
+        <label class="text-white	" >Temp_min</label>
+        <p class="text-white	">{{ datafetch?.main?.temp_min }}</p>
      </div>
       
      <div class="flex justify-around">
-          <label for="tempMax">Temp_max</label>
-          <!-- <p >{{ datafetch?.main?.temp_max }}</p> -->
+          <label for="tempMax" class="text-white	">Temp_max</label>
+          <p class="text-white	">{{ datafetch?.main?.temp_max }}</p>
       </div>
-  
+
+     <div class="flex justify-around" >
+         <p class="text-white	"> {{ datafetch?.weather[0]?.main }}</p>
+         <label class="text-white	"> {{ datafetch?.clouds?.all }}% </label>
+     </div>
+     
+      <div class="flex justify-around">
+        <label class="text-white	" >Humidity</label>
+        <p class="text-white	">{{ datafetch?.main?.humidity}}</p>
+      </div >
+      <div class="flex 	justify-around">
+        <label class="text-white	" > Wind </label>
+        <p class="text-white	"> {{ datafetch?.wind?.speed}} </p>
+
+      </div>
     
-     <button class="bg-white-500 hover:bg-blue-700 text-white font-bold py-2 px-4" @click="handleSubmit">search</button>
  </div>
   </div>
+  <p>{{ datafetch }}</p>
 
-  </div>
+  
 </template>
 
 
 
 
 <script setup>
-import { ref, computed, watch } from "vue";
+import { ref, watch } from "vue";
 import axios from "axios";
-import Sunny from "./assets/sunny.jpeg"
+import mist from "./assets/mist.jpg"
 import snow from "./assets/snow.jpeg"
-import foggy from "./assets/foggy.jpeg"
-import defaultimage from "./assets/default.jpeg"
-
+import rain from "./assets/rain2.jpg" 
+import clear from "./assets/clear.jpg" 
+import clouds from "./assets/Clouds.jpg"
+import defaultimage from "./assets/default.jpg"
 
 
 const datafetch = ref(null)
 const searchTerm = ref(null)
-const rounoff = ref(null)
+const rounoffDegreeCelcus = ref(null)
 
 
 const Todysdate = new Date().toLocaleDateString('en-us', {
@@ -79,8 +96,6 @@ async function handleSubmit(){
   const data = await axios.get(apiUrl).then(response => response.data)
   datafetch.value = data
 
-
-
 }
 catch(error){ 
   console.error("fetch faild" )
@@ -88,25 +103,9 @@ catch(error){
 }
 }
 
-const backgroundImage = computed(() => {
-  const temp = datafetch.value?.main?.temp;
-
-  if (temp > 25 && temp < 35) {
-    return Sunny;
-  } else if (temp > 10 && temp < 24) {
-    return foggy;
-  } else if (temp > -25 && temp < 10) {
-    return snow;
-  } else {
-    return defaultimage;
-  }
-});
-watch(datafetch, () => {
-  backgroundImage.value;
-});
 
 watch(datafetch, ()=>{
-  rounoff.value= Math.round(datafetch?.value?.main?.temp)
+  rounoffDegreeCelcus.value= Math.round(datafetch?.value?.main?.temp)
 })
 
 </script>
