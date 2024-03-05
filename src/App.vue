@@ -1,20 +1,16 @@
 <template>
   
-      <div class="h-screen overflow-hidden" >
-          <div class="h-screen overflow-hidden" >
-            <div class="h-screen w-full ">
-               <img v-if="datafetch?.weather[0]?.main === 'Clouds'" :src="clouds" alt="" class="w-[100%] h-full object-cover" />
-          <img v-else-if="datafetch?.weather[0]?.main === 'Rain'" :src="rain" alt="" class="w-[100%] h-full object-cover" />
-          <img v-else-if="datafetch?.weather[0]?.main === 'Clear'" :src="clear" alt="" class="w-[100%] h-full object-cover	" />
-          <img v-else-if="datafetch?.weather[0]?.main === 'Mist'" :src="mist" alt="" class="w-[100%] h-full object-cover	" />
-          <img v-else-if="datafetch?.weather[0]?.main === 'Haze'" :src="haze" alt=""  class="w-[100%] h-full object-cover	" />
-          <img v-else-if="datafetch?.weather[0]?.main === 'Snow'" :src="snow" alt="" class="w-[100%] h-full object-cover	" />
-          <img v-else :src="defaultimage" alt="" class="w-full h-full object-cover" />
+      <div class=" h-screen overflow-hidden"  >
+          <div class="effect h-screen overflow-hidden" >
+            <div class=" h-screen w-full ">
+
+              <img :src="imageChange" alt="" class="w-[100%] h-full object-cover"/>
+
             </div>
             <div class="absolute top-[100px] left-[100px] z-4">
               <p class="text-black text-6xl text-white">{{ rounoffDegreeCelcus }} °C</p>
+          
               <div class="flex gap-5">
-
 
                 <p class="text-white	text-5xl "> {{ datafetch?.weather[0]?.main }}</p>
                 <i v-if="datafetch?.weather[0]?.main === 'Clouds'" class="fa-solid fa-cloud text-white	text-3xl pt-.5"></i>
@@ -24,9 +20,6 @@
                 <i  v-else-if="datafetch?.weather[0]?.main === 'haze'"  class="fa-solid fa-smog text-white	text-3xl pt-.5"></i>
                 <i v-else :src="defaultimage"   class="fa-solid fa-earth-americas text-white	text-3xl pt-.5"></i>
               </div>
-
-              
-            
 
                 <p class="text-red-500 text-4xl">Location: {{ datafetch?.name }}, {{ datafetch?.sys?.country }}</p>
                 <p class="text-3xl text-white">{{ Todysdate }} </p> 
@@ -82,7 +75,7 @@
 
 
 <script setup>
-import { ref, watch } from "vue";
+import { ref, watch , computed} from "vue";
 import axios from "axios";
 import mist from "./assets/mist.jpg"
 import snow from "./assets/snow.jpeg"
@@ -100,6 +93,7 @@ const APIKEY =import.meta.env.VITE_API_KEY;
 const APIURL =import.meta.env.VITE_API_URL ;
 
 
+
 const Todysdate = new Date().toLocaleDateString('en-us', {
   weekdays: 'long',
   year: 'numeric',
@@ -115,13 +109,37 @@ async function handleSubmit(){
   const apiUrl = `${APIURL}?q=${searchTerm.value}&units=metric&appid=${APIKEY}`;
   const data = await axios.get(apiUrl).then(response => response.data)
   datafetch.value = data
+  imageChange()
 }
 catch(error){ 
   console.error("fetch faild" )
 }
 }
 
-
+const imageChange = computed(() => {
+  if (datafetch.value) {
+    const weatherCondition = datafetch.value.weather[0].main;
+    switch (weatherCondition) {
+      case 'Clouds':
+        return clouds;
+      case 'Rain':
+        return rain;
+      case 'Snow':
+        return snow;
+      case 'Clear':
+        return clear;
+      case 'Mist':
+        return mist;
+      case 'Haze':
+        return haze;
+      default:
+        return defaultimage;
+    }
+  } else {
+    // If datafetch is null or undefined, return the default image
+    return defaultimage;
+  }
+});
 watch(datafetch, ()=>{
   rounoffDegreeCelcus.value= Math.round(datafetch?.value?.main?.temp)
 })
