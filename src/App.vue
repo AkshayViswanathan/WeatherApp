@@ -13,7 +13,20 @@
             </div>
             <div class="absolute top-[100px] left-[100px] z-4">
               <p class="text-black text-6xl text-white">{{ rounoffDegreeCelcus }} °C</p>
-              <p class="text-white	text-5xl "> {{ datafetch?.weather[0]?.main }}</p>
+              <div class="flex gap-5">
+
+
+                <p class="text-white	text-5xl "> {{ datafetch?.weather[0]?.main }}</p>
+                <i v-if="datafetch?.weather[0]?.main === 'Clouds'" class="fa-solid fa-cloud text-white	text-3xl pt-.5"></i>
+                <i v-else-if="datafetch?.weather[0]?.main === 'Rain'" class="fa-solid fa-cloud-rain text-white	text-3xl pt-.5"></i>
+                <i v-else-if="datafetch?.weather[0]?.main === 'Snow'" class="fa-regular fa-snowflake text-white	text-3xl pt-.5"></i>
+                <i  v-else-if="datafetch?.weather[0]?.main === 'Mist'"  class="fa-solid fa-smog text-white	text-3xl pt-.5"></i>
+                <i v-else :src="defaultimage"   class="fa-solid fa-earth-americas text-white	text-3xl pt-.5"></i>
+              </div>
+
+              
+            
+
                 <p class="text-red-500 text-4xl">Location: {{ datafetch?.name }}, {{ datafetch?.sys?.country }}</p>
                 <p class="text-3xl text-white">{{ Todysdate }} </p> 
 
