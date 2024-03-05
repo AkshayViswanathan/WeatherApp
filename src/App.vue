@@ -72,7 +72,7 @@ import { ref, watch } from "vue";
 import axios from "axios";
 import mist from "./assets/mist.jpg"
 import snow from "./assets/snow.jpeg"
-import rain from "./assets/rain.jpg" 
+import rain from "./assets/rain2.jpg" 
 import clear from "./assets/clear.jpg" 
 import clouds from "./assets/clouds.jpg"
 import haze from "./assets/haze.jpg"
