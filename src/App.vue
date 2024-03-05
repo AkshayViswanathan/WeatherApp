@@ -88,7 +88,7 @@ import mist from "./assets/mist.jpg"
 import snow from "./assets/snow.jpeg"
 import rain from "./assets/rain2.jpg" 
 import clear from "./assets/clear.jpg" 
-import clouds from "./assets/cloud.jpg"
+import clouds from "./assets/cloud2.jpg"
 import haze from "./assets/haze.jpg"
 import defaultimage from "./assets/default2.jpg"
 
