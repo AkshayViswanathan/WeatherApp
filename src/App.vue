@@ -25,8 +25,9 @@
      
     
      <input class="seachbox rounded-md items-starts my-8 ml-8 mr-2 p-2"  type="text" v-model="searchTerm" placeholder="search..." />
-     <i class="fa-solid fa-magnifying-glass text-white	hover:bg-gray-600 text-xl" @click="handleSubmit"></i>
-       <div v-if="datafetch" class="flex flex-col gap-8 mx-10">
+     <i class="fa-solid fa-magnifying-glass text-white	hover:bg-gray-600 text-3xl pt-.5" @click="handleSubmit"></i>
+       
+     <div v-if="datafetch" class="flex flex-col gap-8 mx-10">
 
   
      <p class="text-white align-center">Weather Details...</p>
