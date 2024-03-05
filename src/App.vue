@@ -24,7 +24,7 @@
   <div class="glassmorphism absolute top-0 right-0 w-[40%] h-[100vh] bg-slate-800 p-8 bg-gray-500	">
      
     
-     <input class="seachbox rounded-md items-starts my-8 ml-8 mr-2 p-2"  type="text" v-model="searchTerm" placeholder="search..." />
+     <input class="glassmorphism text-white seachbox rounded-md items-starts my-8 ml-8 mr-2 p-2"  type="text" v-model="searchTerm" placeholder="search..." />
      <i class="fa-solid fa-magnifying-glass text-white	hover:bg-gray-600 text-3xl pt-.5" @click="handleSubmit"></i>
        
      <div v-if="datafetch" class="flex flex-col gap-8 mx-10">
@@ -74,7 +74,7 @@ import mist from "./assets/mist.jpg"
 import snow from "./assets/snow.jpeg"
 import rain from "./assets/rain2.jpg" 
 import clear from "./assets/clear.jpg" 
-import clouds from "./assets/clouds.jpg"
+import clouds from "./assets/cloud2.jpg"
 import haze from "./assets/haze.jpg"
 import defaultimage from "./assets/default2.jpg"
 
