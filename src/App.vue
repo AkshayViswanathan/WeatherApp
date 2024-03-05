@@ -21,6 +21,7 @@
                 <i v-else-if="datafetch?.weather[0]?.main === 'Rain'" class="fa-solid fa-cloud-rain text-white	text-3xl pt-.5"></i>
                 <i v-else-if="datafetch?.weather[0]?.main === 'Snow'" class="fa-regular fa-snowflake text-white	text-3xl pt-.5"></i>
                 <i  v-else-if="datafetch?.weather[0]?.main === 'Mist'"  class="fa-solid fa-smog text-white	text-3xl pt-.5"></i>
+                <i  v-else-if="datafetch?.weather[0]?.main === 'haze'"  class="fa-solid fa-smog text-white	text-3xl pt-.5"></i>
                 <i v-else :src="defaultimage"   class="fa-solid fa-earth-americas text-white	text-3xl pt-.5"></i>
               </div>
 
@@ -87,7 +88,7 @@ import mist from "./assets/mist.jpg"
 import snow from "./assets/snow.jpeg"
 import rain from "./assets/rain2.jpg" 
 import clear from "./assets/clear.jpg" 
-import clouds from "./assets/cloud2.jpg"
+import clouds from "./assets/cloud.jpg"
 import haze from "./assets/haze.jpg"
 import defaultimage from "./assets/default2.jpg"
 
