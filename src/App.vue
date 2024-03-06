@@ -13,12 +13,7 @@
               <div class="flex gap-5">
 
                 <p class="text-white	text-5xl "> {{ datafetch?.weather[0]?.main }}</p>
-                <i v-if="datafetch?.weather[0]?.main === 'Clouds'" class="fa-solid fa-cloud text-white	text-3xl pt-.5"></i>
-                <i v-else-if="datafetch?.weather[0]?.main === 'Rain'" class="fa-solid fa-cloud-rain text-white	text-3xl pt-.5"></i>
-                <i v-else-if="datafetch?.weather[0]?.main === 'Snow'" class="fa-regular fa-snowflake text-white	text-3xl pt-.5"></i>
-                <i  v-else-if="datafetch?.weather[0]?.main === 'Mist'"  class="fa-solid fa-smog text-white	text-3xl pt-.5"></i>
-                <i  v-else-if="datafetch?.weather[0]?.main === 'haze'"  class="fa-solid fa-smog text-white	text-3xl pt-.5"></i>
-                <i v-else :src="defaultimage"   class="fa-solid fa-earth-americas text-white	text-3xl pt-.5"></i>
+                <i :class="weatherIconClass" class="text-white text-3xl pt-.5"></i>
               </div>
 
                 <p class="text-red-500 text-4xl">Location: {{ datafetch?.name }}, {{ datafetch?.sys?.country }}</p>
@@ -81,7 +76,7 @@ import mist from "./assets/mist.jpg"
 import snow from "./assets/snow.jpeg"
 import rain from "./assets/rain2.jpg" 
 import clear from "./assets/clear.jpg" 
-import clouds from "./assets/cloud2.jpg"
+import clouds from "./assets/cloud.jpg"
 import haze from "./assets/haze.jpg"
 import defaultimage from "./assets/default2.jpg"
 
@@ -91,7 +86,6 @@ const searchTerm = ref(null)
 const rounoffDegreeCelcus = ref(null)
 const APIKEY =import.meta.env.VITE_API_KEY;
 const APIURL =import.meta.env.VITE_API_URL ;
-
 
 
 const Todysdate = new Date().toLocaleDateString('en-us', {
@@ -136,10 +130,37 @@ const imageChange = computed(() => {
         return defaultimage;
     }
   } else {
-    // If datafetch is null or undefined, return the default image
+  
     return defaultimage;
   }
+}
+);
+
+const weatherIconClass = computed(() => {
+  if (datafetch.value) {
+    const weatherCondition = datafetch.value.weather[0].main;
+    switch (weatherCondition) {
+      case 'Clouds':
+        return 'fa-solid fa-cloud';
+      case 'Rain':
+        return 'fa-solid fa-cloud-rain';
+      case 'Snow':
+        return 'fa-regular fa-snowflake';
+      case 'Mist':
+      case 'Haze':
+        return 'fa-solid fa-smog';
+      default:
+        return 'fa-solid fa-earth-americas';
+    }
+  } else {
+   
+    return 'fa-solid fa-earth-americas';
+  }
 });
+
+
+
+
 watch(datafetch, ()=>{
   rounoffDegreeCelcus.value= Math.round(datafetch?.value?.main?.temp)
 })
